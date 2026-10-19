@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Emoji fonts are listed explicitly so systems without one (common on Linux) still show them. */
+  --font-sans:
+    "Nunito", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+  --font-display:
+    "Fredoka", "Nunito", ui-rounded, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+}
+
+/* Coil & Claw theme: minty, soft and round. */
+:root,
+.light {
+  --radius: 0.85rem;
+  --background: oklch(0.982 0.012 160);
+  --foreground: oklch(0.29 0.03 300);
+  --surface: oklch(1 0 0);
+  --muted: oklch(0.55 0.03 300);
+  --default: oklch(0.95 0.015 160);
+  --default-foreground: oklch(0.29 0.03 300);
+  --accent: oklch(0.62 0.13 162);
+  --accent-foreground: oklch(0.99 0 0);
+  --field-background: oklch(0.975 0.01 160);
+  --border: oklch(0.91 0.02 160);
+}
+
+.dark {
+  --background: oklch(0.2 0.018 165);
+  --foreground: oklch(0.95 0.01 160);
+  --surface: oklch(0.25 0.02 165);
+  --muted: oklch(0.72 0.02 160);
+  --default: oklch(0.3 0.02 165);
+  --default-foreground: oklch(0.95 0.01 160);
+  --accent: oklch(0.74 0.13 162);
+  --accent-foreground: oklch(0.2 0.02 165);
+  --field-background: oklch(0.29 0.02 165);
+  --border: oklch(0.33 0.02 165);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Native date/time inputs, styled to match HeroUI fields. */
+.native-field {
+  height: 2.5rem;
+  border-radius: var(--field-radius);
+  background: var(--field-background);
+  color: var(--field-foreground);
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  box-shadow: var(--field-shadow);
+  outline: none;
+  color-scheme: light;
+}
+.dark .native-field {
+  color-scheme: dark;
+}
+.native-field:focus-visible {
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+.bg-dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--accent) 14%, transparent) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  75% {
+    transform: rotate(6deg);
+  }
+}
+.hover-wiggle:hover > .wiggle-target,
+.wiggle {
+  animation: wiggle 0.6s ease-in-out;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.bob {
+  animation: bob 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bob,
+  .wiggle,
+  .hover-wiggle:hover > .wiggle-target {
+    animation: none;
+  }
+}

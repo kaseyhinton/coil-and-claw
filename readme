@@ -1,0 +1,37 @@
+# Coil & Claw App
+
+It is a care guide for snakes and spider and all manner of species.
+It is built with React and HeroUI.
+It will prompt a user to add a pet and upload pictures of it.
+It will have a feeding schedule. You can put in the size of prey and type and when you feed it so you have history.
+It will have a notification if it is time to feed or feeding it past due.
+It will have the ability to upload a picture which we will send to gemini api along with all data we have with the pet
+and this is look for potential problems or care tips we can provide the user. We will persist this "Check-up" in the
+app in the pet's history. It needs to be cute and have cute icons for snakes and tarantulas. Additional inputs for pets would 
+be size and weight. It needs to be extremely user friendly also. It will be hosted online on cloudflare and can use my cloudflare D1 database for storage and drizzle for the ORM.
+You have wrangler cli access and I will work on getting a gemini api key for you to use.
+
+---
+
+## Development
+
+Live: https://coilandclaw.us (www and the old workers.dev URL redirect here)
+
+Stack: React 19 + HeroUI v3 + Tailwind v4 (Vite) · Hono API on Cloudflare Workers · D1 + Drizzle · R2 for photos · Gemini for check-ups · Cloudflare Email Sending for password resets.
+
+```bash
+npm install
+npm run db:migrate:local   # first time only
+npm run dev                # http://localhost:5173 (frontend + API together)
+npm run deploy             # build + deploy to Cloudflare
+```
+
+- Schema lives in `src/worker/db/schema.ts`. After changing it: `npm run db:generate`, then `db:migrate:local` / `db:migrate:remote`.
+- Gemini key: `GEMINI_API_KEY` (or `GEMINI_KEY`) — in `.dev.vars` locally, `wrangler secret put` in production.
+  The model is set by `GEMINI_MODEL` in `wrangler.jsonc` (falls back to `gemini-flash-lite-latest` when overloaded).
+- Auth: email + password (PBKDF2), httpOnly session cookie stored hashed in D1, 30-day sliding sessions.
+  Password reset emails are sent from `EMAIL_FROM` via the `EMAIL` binding; reset links last 1 hour and are single-use.
+  Locally the reset link is also printed to the dev-server console. Every API route is scoped to the signed-in user.
+- Auth endpoints are rate-limited (`AUTH_LIMITER`, 10/min per IP).
+- `npm run format` runs Prettier.
+- Code map: `src/worker/` (API, auth, Gemini), `src/client/pages/` (Home, NewPet wizard, PetPage, Auth), `src/client/components/` (icons, modals, forms), `src/shared/feeding.ts` (due/overdue logic).
