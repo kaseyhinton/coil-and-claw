@@ -48,7 +48,7 @@ export function usePetForm(unit: LengthUnit, pet?: Pet) {
 
 type FormProps = { form: ReturnType<typeof usePetForm>; unit: LengthUnit };
 
-const kinds: PetKind[] = ["snake", "tarantula", "lizard", "other"];
+const kinds: PetKind[] = ["snake", "tarantula", "jumping_spider", "lizard", "amphibian", "other"];
 
 export function KindPicker({
   value,
@@ -60,7 +60,11 @@ export function KindPicker({
   compact?: boolean;
 }) {
   return (
-    <div className={`grid gap-3 ${compact ? "grid-cols-4" : "grid-cols-2"}`} role="radiogroup" aria-label="Type of pet">
+    <div
+      className={`grid gap-3 ${compact ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
+      role="radiogroup"
+      aria-label="Type of pet"
+    >
       {kinds.map((k) => {
         const active = value === k;
         return (
@@ -78,7 +82,7 @@ export function KindPicker({
               <PetKindIcon kind={k} size={compact ? 40 : 76} />
             </span>
             <span className={`font-display font-semibold ${compact ? "text-xs" : "text-lg"}`}>
-              {compact && k === "other" ? "Other" : kindMeta[k].label}
+              {compact ? kindMeta[k].short : kindMeta[k].label}
             </span>
           </button>
         );

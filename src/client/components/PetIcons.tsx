@@ -137,6 +137,82 @@ export function LizardIcon({ size = 48, ...props }: IconProps) {
   );
 }
 
+export function JumpingSpiderIcon({ size = 48, ...props }: IconProps) {
+  const body = "#9cc3ee";
+  const edge = "#5b8fcc";
+  const legs = ["M24 25 Q14 17 9 22", "M23 30 Q12 28 8 34", "M24 34 Q13 38 11 45", "M26 38 Q19 46 18 52"];
+  return (
+    <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden {...props}>
+      <g stroke={edge} strokeWidth="5" strokeLinecap="round" fill="none">
+        {legs.map((d) => (
+          <path key={d} d={d} />
+        ))}
+        <g transform="translate(64 0) scale(-1 1)">
+          {legs.map((d) => (
+            <path key={d} d={d} />
+          ))}
+        </g>
+      </g>
+      <g stroke={body} strokeWidth="2.2" strokeLinecap="round" fill="none" opacity="0.9">
+        {legs.map((d) => (
+          <path key={d} d={d} />
+        ))}
+        <g transform="translate(64 0) scale(-1 1)">
+          {legs.map((d) => (
+            <path key={d} d={d} />
+          ))}
+        </g>
+      </g>
+      <ellipse cx="32" cy="47" rx="11" ry="10" fill={body} stroke={edge} strokeWidth="2" />
+      <g fill="#fff" opacity="0.85">
+        <circle cx="28" cy="47" r="1.8" />
+        <circle cx="36" cy="47" r="1.8" />
+        <circle cx="32" cy="52.5" r="1.5" />
+      </g>
+      <ellipse cx="32" cy="28" rx="14" ry="11" fill={body} stroke={edge} strokeWidth="2" />
+      <path
+        d="M27 17.5 l-1 -2.5 M32 17 l0 -2.6 M37 17.5 l1 -2.5"
+        stroke={edge}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <circle cx="21.5" cy="24" r="1.3" fill={ink} />
+      <circle cx="42.5" cy="24" r="1.3" fill={ink} />
+      <ellipse cx="29.5" cy="35.5" rx="1.8" ry="1.3" fill="#5fd3c4" />
+      <ellipse cx="34.5" cy="35.5" rx="1.8" ry="1.3" fill="#5fd3c4" />
+      <Face cx={32} cy={27} gap={10.5} eye={4} />
+    </svg>
+  );
+}
+
+export function FrogIcon({ size = 48, ...props }: IconProps) {
+  const body = "#b4e07e";
+  const edge = "#78b545";
+  const belly = "#e8f7cf";
+  // Drawn twice (outline, then fill) so the eye bumps and legs merge into one silhouette.
+  const shapes = (
+    <>
+      <ellipse cx="14" cy="50" rx="8" ry="5.5" />
+      <ellipse cx="50" cy="50" rx="8" ry="5.5" />
+      <circle cx="23" cy="25" r="7.5" />
+      <circle cx="41" cy="25" r="7.5" />
+      <ellipse cx="32" cy="40" rx="19" ry="15" />
+      <ellipse cx="24" cy="55" rx="4.5" ry="3" />
+      <ellipse cx="40" cy="55" rx="4.5" ry="3" />
+    </>
+  );
+  return (
+    <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden {...props}>
+      <g fill={body} stroke={edge} strokeWidth="4">
+        {shapes}
+      </g>
+      <g fill={body}>{shapes}</g>
+      <ellipse cx="32" cy="45" rx="11" ry="7.5" fill={belly} />
+      <Face cx={32} cy={25} gap={18} eye={3.4} />
+    </svg>
+  );
+}
+
 export function EggIcon({ size = 48, ...props }: IconProps) {
   return (
     <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden {...props}>
@@ -166,16 +242,27 @@ export function PetKindIcon({ kind, ...props }: IconProps & { kind: PetKind }) {
       return <SnakeIcon {...props} />;
     case "tarantula":
       return <TarantulaIcon {...props} />;
+    case "jumping_spider":
+      return <JumpingSpiderIcon {...props} />;
     case "lizard":
       return <LizardIcon {...props} />;
+    case "amphibian":
+      return <FrogIcon {...props} />;
     default:
       return <EggIcon {...props} />;
   }
 }
 
-export const kindMeta: Record<PetKind, { label: string; plural: string; tint: string }> = {
-  snake: { label: "Snake", plural: "Snakes", tint: "bg-[#e3f7ec] dark:bg-[#1f3a2d]" },
-  tarantula: { label: "Tarantula", plural: "Tarantulas", tint: "bg-[#efe6fb] dark:bg-[#33284a]" },
-  lizard: { label: "Lizard", plural: "Lizards", tint: "bg-[#fff0dc] dark:bg-[#43321e]" },
-  other: { label: "Something else", plural: "Others", tint: "bg-[#fdf5e3] dark:bg-[#3d3523]" },
+export const kindMeta: Record<PetKind, { label: string; short: string; plural: string; tint: string }> = {
+  snake: { label: "Snake", short: "Snake", plural: "Snakes", tint: "bg-[#e3f7ec] dark:bg-[#1f3a2d]" },
+  tarantula: { label: "Tarantula", short: "Tarantula", plural: "Tarantulas", tint: "bg-[#efe6fb] dark:bg-[#33284a]" },
+  jumping_spider: {
+    label: "Jumping spider",
+    short: "Jumper",
+    plural: "Jumping spiders",
+    tint: "bg-[#e2eefb] dark:bg-[#1f2e44]",
+  },
+  lizard: { label: "Lizard", short: "Lizard", plural: "Lizards", tint: "bg-[#fff0dc] dark:bg-[#43321e]" },
+  amphibian: { label: "Amphibian", short: "Amphibian", plural: "Amphibians", tint: "bg-[#eef8dc] dark:bg-[#2c3a1e]" },
+  other: { label: "Something else", short: "Other", plural: "Others", tint: "bg-[#fdf5e3] dark:bg-[#3d3523]" },
 };

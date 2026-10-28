@@ -55,7 +55,7 @@ export const pets = sqliteTable(
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
-    kind: text("kind", { enum: ["snake", "tarantula", "lizard", "other"] }).notNull(),
+    kind: text("kind", { enum: ["snake", "tarantula", "jumping_spider", "lizard", "amphibian", "other"] }).notNull(),
     species: text("species"),
     sex: text("sex", { enum: ["male", "female", "unknown"] })
       .notNull()

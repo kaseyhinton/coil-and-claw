@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { CheckupResult } from "../worker/db/schema";
 
 export type { CheckupResult };
-export type PetKind = "snake" | "tarantula" | "lizard" | "other";
+export type PetKind = "snake" | "tarantula" | "jumping_spider" | "lizard" | "amphibian" | "other";
 export type Sex = "male" | "female" | "unknown";
 export type PreyState = "live" | "frozen_thawed" | "pre_killed";
 

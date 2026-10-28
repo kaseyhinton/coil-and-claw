@@ -58,7 +58,10 @@ const num = (v: unknown) => {
 function petInput(body: Record<string, unknown>) {
   const out: Partial<typeof pets.$inferInsert> = {};
   if ("name" in body) out.name = str(body.name)?.slice(0, 80) ?? undefined;
-  if ("kind" in body && ["snake", "tarantula", "lizard", "other"].includes(body.kind as string))
+  if (
+    "kind" in body &&
+    ["snake", "tarantula", "jumping_spider", "lizard", "amphibian", "other"].includes(body.kind as string)
+  )
     out.kind = body.kind as schema.Pet["kind"];
   if ("species" in body) out.species = str(body.species)?.slice(0, 120) ?? null;
   if ("sex" in body && ["male", "female", "unknown"].includes(body.sex as string))
@@ -372,7 +375,7 @@ app.post("/pets/:id/checkups", async (c) => {
   const day = (dt: Date) => dt.toISOString().slice(0, 10);
   const context = [
     `Today: ${day(new Date())}`,
-    `Pet: ${pet.name}, a ${pet.kind}${pet.species ? ` (${pet.species})` : ""}`,
+    `Pet: ${pet.name}, a ${pet.kind.replace("_", " ")}${pet.species ? ` (${pet.species})` : ""}`,
     `Sex: ${pet.sex}. Age: ${ageText(pet.birthDate)}.`,
     `Current length: ${pet.lengthCm ?? "unknown"} cm. Current weight: ${pet.weightG ?? "unknown"} g.`,
     `Target feeding interval: every ${pet.feedingIntervalDays} days.`,
