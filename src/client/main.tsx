@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toast } from "@heroui/react";
 import App from "./App";
+import { registerServiceWorker } from "./lib/install";
 import "./index.css";
 
 const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -13,6 +14,7 @@ const applyTheme = () => {
 };
 applyTheme();
 media.addEventListener("change", applyTheme);
+registerServiceWorker();
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },

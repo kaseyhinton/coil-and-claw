@@ -6,6 +6,7 @@ import { keys, setUnauthorizedHandler, useMe } from "./api";
 import { getLengthUnit, setLengthUnit, type LengthUnit } from "./lib/format";
 import { EggIcon, SnakeIcon, TarantulaIcon } from "./components/PetIcons";
 import { AccountMenu } from "./components/AccountMenu";
+import { InstallPrompt } from "./components/InstallPrompt";
 import Home from "./pages/Home";
 import NewPet from "./pages/NewPet";
 import PetPage from "./pages/PetPage";
@@ -114,6 +115,7 @@ export default function App() {
             </Routes>
           )}
         </main>
+        {user && <InstallPrompt />}
       </div>
     </UnitContext.Provider>
   );

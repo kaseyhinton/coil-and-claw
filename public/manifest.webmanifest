@@ -1,10 +1,16 @@
 {
+  "id": "/",
   "name": "Coil & Claw",
   "short_name": "Coil & Claw",
   "description": "A cozy care guide and feeding tracker for snakes, tarantulas and other exotic pets.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f3fbf6",
   "theme_color": "#2f9e74",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
 }
