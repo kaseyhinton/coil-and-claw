@@ -76,6 +76,10 @@ export function LoginPage() {
           New here?{" "}
           <Link to="/signup" className={linkClass}>
             Create an account
+          </Link>{" "}
+          or{" "}
+          <Link to="/demo" className={linkClass}>
+            watch the demo
           </Link>
         </>
       }

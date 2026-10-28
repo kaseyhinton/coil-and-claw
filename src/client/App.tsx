@@ -9,6 +9,7 @@ import { AccountMenu } from "./components/AccountMenu";
 import Home from "./pages/Home";
 import NewPet from "./pages/NewPet";
 import PetPage from "./pages/PetPage";
+import Demo from "./pages/Demo";
 import { ForgotPasswordPage, LoginPage, ResetPasswordPage, SignupPage } from "./pages/Auth";
 
 const UnitContext = createContext<LengthUnit>("cm");
@@ -95,6 +96,7 @@ export default function App() {
               <Route path="/pets/new" element={<NewPet />} />
               <Route path="/pets/:id" element={<PetPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/demo" element={<Demo signedIn />} />
               <Route path="/login" element={<Navigate to="/" replace />} />
               <Route path="/signup" element={<Navigate to="/" replace />} />
               <Route path="/forgot-password" element={<Navigate to="/" replace />} />
@@ -106,6 +108,7 @@ export default function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/demo" element={<Demo signedIn={false} />} />
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<Navigate to={`/login?next=${next}`} replace />} />
             </Routes>

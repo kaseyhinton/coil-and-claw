@@ -435,6 +435,29 @@ app.delete("/checkups/:id", async (c) => {
 
 app.all("*", (c) => c.json({ error: "Not found" }, 404));
 
+/** Static assets ignore Range headers, but Safari won't play video without byte-range responses. */
+async function serveVideo(request: Request, env: Bindings) {
+  const res = await env.ASSETS.fetch(new Request(request.url, { method: "GET" }));
+  if (!res.ok) return res;
+  const headers = new Headers(res.headers);
+  headers.set("accept-ranges", "bytes");
+  headers.set("cache-control", "public, max-age=86400");
+  const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.get("range") ?? "");
+  if (!range) return new Response(request.method === "HEAD" ? null : res.body, { status: 200, headers });
+
+  const body = await res.arrayBuffer();
+  const size = body.byteLength;
+  const start = range[1] ? Number(range[1]) : Math.max(0, size - Number(range[2]));
+  const end = range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+  if (start >= size || start > end) {
+    headers.set("content-range", `bytes */${size}`);
+    return new Response(null, { status: 416, headers });
+  }
+  headers.set("content-range", `bytes ${start}-${end}/${size}`);
+  headers.set("content-length", String(end - start + 1));
+  return new Response(request.method === "HEAD" ? null : body.slice(start, end + 1), { status: 206, headers });
+}
+
 export default {
   fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -449,6 +472,7 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
     if (url.pathname.startsWith("/api/")) return app.fetch(request, env, ctx);
+    if (url.pathname.endsWith(".mp4")) return serveVideo(request, env);
     return env.ASSETS.fetch(request);
   },
 } satisfies ExportedHandler<Bindings>;
